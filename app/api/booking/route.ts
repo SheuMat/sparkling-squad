@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import { sendEmail, esc } from "@/lib/email";
+import { getService } from "@/lib/services";
 
-// Booking submissions land here. For now we validate and log the request so the
-// site works end-to-end. To go live, wire one of the TODOs below to actually
-// deliver the booking (email, CRM, spreadsheet, etc.).
+// Booking submissions land here: validate, email the request to the business,
+// and log it as a backup.
 export async function POST(request: Request) {
   try {
     const data = await request.json();
@@ -17,12 +18,44 @@ export async function POST(request: Request) {
       );
     }
 
-    // TODO (go-live): deliver the booking. Options:
-    //   • Email via Resend / Nodemailer to hello@sparklingsquad.com
-    //   • Push into a Google Sheet / Airtable / CRM
-    //   • Send a confirmation email to the customer
-    // For now we just log it server-side.
-    console.log("New booking request:", JSON.stringify(data, null, 2));
+    const serviceName = getService(data.serviceSlug)?.name ?? data.serviceSlug;
+    const quote = data.quote ? `£${data.quote.low}–£${data.quote.high}` : "—";
+    const extras = Array.isArray(data.extras) && data.extras.length ? data.extras.join(", ") : "None";
+
+    const html = `
+      <h2>New booking request</h2>
+      <p><strong>Service:</strong> ${esc(serviceName)}</p>
+      <p><strong>Estimated quote:</strong> ${esc(quote)}</p>
+      <hr>
+      <p><strong>Property:</strong> ${esc(data.propertyType) || "—"}${
+        data.bedrooms != null ? ` · ${esc(data.bedrooms)} bed, ${esc(data.bathrooms)} bath` : ""
+      }</p>
+      <p><strong>Frequency:</strong> ${esc(data.frequency) || "—"}</p>
+      <p><strong>Preferred date/time:</strong> ${esc(data.date) || "—"} · ${esc(data.time) || "—"}</p>
+      <p><strong>Extras:</strong> ${esc(extras)}</p>
+      <p><strong>Notes:</strong> ${esc(data.notes) || "—"}</p>
+      <hr>
+      <p><strong>Name:</strong> ${esc(data.name)}</p>
+      <p><strong>Phone:</strong> ${esc(data.phone)}</p>
+      <p><strong>Email:</strong> ${esc(data.email)}</p>
+      <p><strong>Address:</strong> ${esc(data.address) || "—"}, ${esc(data.postcode)}</p>
+    `;
+
+    const result = await sendEmail({
+      subject: `New booking: ${esc(serviceName)} — ${esc(data.name)}`,
+      html,
+      replyTo: typeof data.email === "string" ? data.email : undefined,
+    });
+
+    // Keep a server-side copy regardless of email outcome.
+    console.log("New booking request:", JSON.stringify(data));
+
+    if (!result.ok) {
+      return NextResponse.json(
+        { ok: false, error: "Could not send your request. Please call us." },
+        { status: 502 }
+      );
+    }
 
     return NextResponse.json({ ok: true });
   } catch {

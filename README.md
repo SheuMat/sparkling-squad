@@ -34,12 +34,33 @@ npm start        # serve the production build
 | Booking flow | `components/BookingForm.tsx` |
 | Brand images / logos / photos | `public/brand`, `public/images` |
 
-## Going live — TODO
+## Email delivery (booking & contact forms)
 
-1. **Booking delivery.** `app/api/booking/route.ts` currently validates and logs submissions.
-   Wire it to email (Resend / Nodemailer to `hello@sparklingsquad.com`), a Google Sheet, or a CRM.
-2. **Real content.** Swap the placeholder stats (500+ cleans, 4.9★) and reviews for real ones; add
+Both the booking form (`/api/booking`) and the contact form (`/api/contact`) email submissions to
+the business via [Resend](https://resend.com), using the helper in `lib/email.ts`. If no API key is
+set, they safely fall back to logging so the site still works.
+
+**To turn email on:**
+
+1. Create a free account at [resend.com](https://resend.com) and generate an **API key**.
+2. **Verify the domain** `sparklingsquad.co.uk` in Resend (Domains → Add) so email can be sent to
+   `contact@sparklingsquad.co.uk` from your own address. (Before verifying, Resend only allows the
+   test sender `onboarding@resend.dev` and delivery to your own Resend account email.)
+3. Add these environment variables — locally in `.env.local`, and in
+   **Vercel → Settings → Environment Variables** for production (see `.env.example`):
+
+   ```
+   RESEND_API_KEY=re_...
+   MAIL_TO=contact@sparklingsquad.co.uk
+   MAIL_FROM=Sparkling Squad <noreply@sparklingsquad.co.uk>
+   ```
+4. Redeploy. Submissions now arrive at `contact@sparklingsquad.co.uk`, with the customer's email set
+   as **reply-to** so you can respond directly.
+
+## Going live — remaining TODO
+
+1. **Real content.** Swap the placeholder stats (500+ cleans, 4.9★) and reviews for real ones; add
    genuine photos to `public/images`.
-3. **Confirm prices.** The estimator figures in `lib/services.ts` are sensible starters — tune to
+2. **Confirm prices.** The estimator figures in `lib/services.ts` are sensible starters — tune to
    your actual pricing.
-4. **Deploy.** Push to GitHub and deploy on Vercel (zero-config for Next.js).
+3. **Deploy.** Push to GitHub and deploy on Vercel (zero-config for Next.js).
