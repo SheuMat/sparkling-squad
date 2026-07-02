@@ -16,6 +16,16 @@ export const site = {
   },
 };
 
+// Primary navigation, shared by the header and footer.
+export const mainNav = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "About", href: "/about" },
+  { label: "Areas", href: "/areas" },
+  { label: "Contact", href: "/contact" },
+];
+
 // Sheffield postcode districts we cover.
 export const coverage = [
   "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10",

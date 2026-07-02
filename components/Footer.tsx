@@ -44,20 +44,26 @@ export default function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-sky-100/70">
             {services.slice(0, 5).map((s) => (
               <li key={s.slug}>
-                <Link href={`/book?service=${s.slug}`} className="hover:text-brand">
+                <Link href={`/services/${s.slug}`} className="hover:text-brand">
                   {s.name}
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/services" className="font-semibold text-sky-200 hover:text-brand">
+                All services →
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div>
           <h4 className="font-bold">Company</h4>
           <ul className="mt-4 space-y-2 text-sm text-sky-100/70">
-            <li><Link href="/#why" className="hover:text-brand">Why choose us</Link></li>
-            <li><Link href="/#reviews" className="hover:text-brand">Reviews</Link></li>
-            <li><Link href="/#pricing" className="hover:text-brand">Pricing</Link></li>
+            <li><Link href="/about" className="hover:text-brand">About us</Link></li>
+            <li><Link href="/pricing" className="hover:text-brand">Pricing</Link></li>
+            <li><Link href="/areas" className="hover:text-brand">Areas we cover</Link></li>
+            <li><Link href="/contact" className="hover:text-brand">Contact</Link></li>
             <li><Link href="/book" className="hover:text-brand">Book online</Link></li>
           </ul>
         </div>

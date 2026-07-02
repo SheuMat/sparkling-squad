@@ -3,19 +3,17 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { site } from "@/lib/site";
-
-const nav = [
-  { label: "Services", href: "/#services" },
-  { label: "Why Us", href: "/#why" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "Reviews", href: "/#reviews" },
-  { label: "Contact", href: "/#contact" },
-];
+import { usePathname } from "next/navigation";
+import { site, mainNav } from "@/lib/site";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Only the home page has a dark hero for the header to sit over. Every other
+  // page has light content at the top, so the header must be solid there.
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -24,10 +22,14 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // At the top of the page the header sits over the dark slider, so we use the
-  // white footer logo + white text. Once scrolled it becomes a solid white bar
-  // with the full-colour logo and navy text.
-  const solid = scrolled || open;
+  // Close the mobile menu whenever the route changes.
+  useEffect(() => setOpen(false), [pathname]);
+
+  // Solid = white bar + colour logo + navy text. Transparent = over the hero.
+  const solid = !isHome || scrolled || open;
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <header
@@ -47,13 +49,17 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
-          {nav.map((item) => (
+        <nav className="hidden items-center gap-7 lg:flex">
+          {mainNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={`text-sm font-semibold transition hover:text-brand ${
-                solid ? "text-navy/80" : "text-white/90 drop-shadow"
+                isActive(item.href)
+                  ? "text-brand"
+                  : solid
+                    ? "text-navy/80"
+                    : "text-white/90 drop-shadow"
               }`}
             >
               {item.label}
@@ -94,12 +100,14 @@ export default function Header() {
         <div className="lg:hidden">
           <div className="container-x pb-5">
             <div className="rounded-2xl bg-white p-4 shadow-soft">
-              {nav.map((item) => (
+              {mainNav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-xl px-3 py-3 font-semibold text-navy hover:bg-sky-50"
+                  className={`block rounded-xl px-3 py-3 font-semibold hover:bg-sky-50 ${
+                    isActive(item.href) ? "text-brand" : "text-navy"
+                  }`}
                 >
                   {item.label}
                 </Link>

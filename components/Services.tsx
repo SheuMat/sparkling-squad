@@ -13,8 +13,8 @@ export default function Services() {
             Every type of clean, one local squad
           </h2>
           <p className="mt-4 text-navy/70">
-            From a weekly tidy to a full move-out scrub or a driveway jet-wash — pick a service and
-            get an instant online quote.
+            From a weekly tidy to a full move-out scrub or a driveway jet-wash — explore a service for
+            full details, or get an instant online quote.
           </p>
         </div>
 
@@ -22,7 +22,7 @@ export default function Services() {
           {services.map((s) => (
             <Link
               key={s.slug}
-              href={`/book?service=${s.slug}`}
+              href={`/services/${s.slug}`}
               className="group relative flex flex-col overflow-hidden rounded-3xl border border-sky-100 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand/40 hover:shadow-soft"
             >
               {s.popular && (
@@ -44,6 +44,15 @@ export default function Services() {
               </div>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/services"
+            className="inline-block rounded-full border-2 border-navy px-7 py-3 font-bold text-navy transition hover:bg-navy hover:text-white"
+          >
+            View all services in detail
+          </Link>
         </div>
       </div>
     </section>
