@@ -12,7 +12,7 @@ export default function Coverage() {
             Covering Sheffield & South Yorkshire
           </h2>
           <p className="mt-4 max-w-lg text-navy/70">
-            From the city centre to the suburbs and surrounding towns — if you're in or around
+            From the city centre to the suburbs and surrounding towns — if you’re in or around
             Sheffield, the squad can reach you. Not sure if we cover your postcode? Just ask.
           </p>
           <div className="mt-7 flex flex-wrap gap-2">
@@ -30,7 +30,7 @@ export default function Coverage() {
         <div className="rounded-3xl bg-gradient-to-br from-brand to-royal p-10 text-white shadow-soft">
           <p className="text-2xl font-extrabold">Not sure where to start?</p>
           <p className="mt-3 text-sky-100/90">
-            Tell us what you need and we'll recommend the right clean and a fair price — no pressure,
+            Tell us what you need and we’ll recommend the right clean and a fair price — no pressure,
             no obligation.
           </p>
           <a

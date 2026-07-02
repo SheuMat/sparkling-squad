@@ -117,7 +117,7 @@ export default function BookingForm({ initialService }: { initialService?: strin
         </div>
         <h2 className="mt-6 text-2xl font-extrabold text-navy">Request received — thank you!</h2>
         <p className="mt-3 text-navy/70">
-          Thanks {form.name.split(" ")[0]}, your {service?.name.toLowerCase()} request is in. We'll
+          Thanks {form.name.split(" ")[0]}, your {service?.name.toLowerCase()} request is in. We’ll
           confirm your slot and final price by phone or email very soon.
         </p>
         {quote && (
@@ -234,7 +234,7 @@ export default function BookingForm({ initialService }: { initialService?: strin
                   className="mt-2 w-full rounded-xl border border-sky-100 px-4 py-3 outline-none focus:border-brand"
                 />
                 <p className="mt-2 text-xs text-navy/55">
-                  We'll confirm the exact price after a quick look at photos or a visit.
+                  We’ll confirm the exact price after a quick look at photos or a visit.
                 </p>
               </div>
             )}
@@ -375,7 +375,7 @@ export default function BookingForm({ initialService }: { initialService?: strin
               </p>
             )}
             <p className="mt-4 text-xs text-navy/55">
-              Submitting sends us a request — it isn't a charge. We'll confirm the final price before
+              Submitting sends us a request — it isn’t a charge. We’ll confirm the final price before
               any work begins.
             </p>
           </div>

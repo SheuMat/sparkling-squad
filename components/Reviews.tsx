@@ -38,7 +38,7 @@ export default function Reviews() {
             Loved across Sheffield
           </span>
           <h2 className="mt-3 text-3xl font-extrabold text-navy sm:text-4xl">
-            Don't just take our word for it
+            Don’t just take our word for it
           </h2>
         </div>
 

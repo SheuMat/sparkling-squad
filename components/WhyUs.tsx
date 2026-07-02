@@ -22,7 +22,7 @@ export default function WhyUs() {
           </h2>
           <p className="mt-4 max-w-lg text-sky-100/80">
             We started with one mop and a promise: turn up, work hard, and leave every place
-            sparkling. Hundreds of Sheffield homes and businesses later, that hasn't changed.
+            sparkling. Hundreds of Sheffield homes and businesses later, that hasn’t changed.
           </p>
 
           <div className="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2">
